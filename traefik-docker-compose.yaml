@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  proxy:
+    image: 'traefik:latest'
+    restart: always
+    ports:
+      - '80:80'
+    volumes:
+      - './traefik/:/etc/traefik/:ro'
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.traefik.entrypoints=web'
+      - 'traefik.http.routers.traefik.rule=Host(`traefik.docker.localhost`)'
+      - 'traefik.http.services.traefik.loadbalancer.server.port=8080'
+
+networks:
+  default:
+    name: traefik
+    external: true

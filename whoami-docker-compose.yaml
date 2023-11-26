@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  server:
+    image: 'traefik/whoami:latest'
+    restart: always
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.whoami.entrypoints=web'
+      - 'traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)'
+
+networks:
+  default:
+    name: traefik
+    external: true
